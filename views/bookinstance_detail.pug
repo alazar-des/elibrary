@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+  h1 #[strong ID: ] #{title}
+  p #[strong Title: ]
+    a(href=bookinstance.book.url) #{bookinstance.book.title}
+  p #[strong Imprint: ] #{bookinstance.imprint}
+  p #[strong Status: ]
+    if bookinstance.status == "Available"
+      span.text-success #{bookinstance.status}
+    else if bookinstance.status == "Maintenacne"
+      sapn.text-danger #{bookinstance.status}
+    else 
+      sapn.text-warning #{bookinstance.status}
+    if bookinstance.status != "Available"
+      p #[strong Due back: ] #{bookinstance.due_back_formatted}
