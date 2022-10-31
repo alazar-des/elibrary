@@ -1,20 +1,23 @@
-extends layout 
+extends layout
 
-block content 
-  h1= title 
+block content
+  h1=title
 
-  form(method="POST" action="")
-    div.form-group 
-      label(for="book") Book:
-      select#book.form-control(type="select" name="book" placeholder="Select book" required=ture)
+  form(method='POST' action='')
+    div.form-group
+      label(for='book') Book:
+      select#book.form-control(type='select' placeholder='Select book' name='book' required='true')
         - books.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
-        for book in books 
+        for book in books
           option(value=book._id, selected=(selected_book==book._id.toString() ? 'selected' : false) ) #{book.title}
 
-    div.form-group 
-      label(for="imprint") Imprint: 
-      input#imprint.form-control(type="text" name="imprint" placeholder="Publisher and date information" required=true value=(bookinstance===undefined ? "" : bookinstance.imprint))
- 
+    div.form-group
+      label(for='imprint') Imprint:
+      input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===bookinstance ? '' : bookinstance.imprint))
+    div.form-group
+      label(for='due_back') Date when book available:
+      input#due_back.form-control(type='date' name='due_back' value=(undefined===bookinstance ? '' : bookinstance.due_back))
+
     div.form-group
       label(for='status') Status:
       select#status.form-control(type='select' placeholder='Select status' name='status' required='true')

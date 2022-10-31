@@ -142,7 +142,7 @@ exports.author_delete_post = (req, res, next) => {
     },
     (err, results) => {
       if (err) return next(err);
-      if (results.author_books.length > 1) {
+      if (results.author_books.length > 0) {
         res.render("author_delete", {
           title: "Delete Author",
           author: results.author,

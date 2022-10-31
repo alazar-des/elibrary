@@ -35,7 +35,7 @@ block content
           a(href=val.url) #{val._id}
 
   else
-    p Do you really want to delete this Author?
+    p Do you really want to delete this Book?
 
     form(method="POST" action="")
       input#bookid.form-control(type="hidden" name="bookid" value=book._id required=true)
