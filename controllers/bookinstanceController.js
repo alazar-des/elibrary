@@ -71,7 +71,7 @@ exports.bookinstance_create_post = [
     });
 
     if (!errors.isEmpty()) {
-      console.log(errors);
+      console.log(bookinstance.due_back);
       Book.find({}, "title").exec((err, books) => {
         if (err) return next(err);
         res.render("bookinstance_form", {
@@ -82,12 +82,12 @@ exports.bookinstance_create_post = [
           errors: errors.array(),
         });
       });
-    } else {
-      bookinstance.save((err) => {
-        if (err) return next(err);
-        res.redirect(bookinstance.url);
-      });
+      return;
     }
+    bookinstance.save((err) => {
+      if (err) return next(err);
+      res.redirect(bookinstance.url);
+    });
   },
 ];
 

@@ -9,22 +9,34 @@ block content
       select#book.form-control(type='select' placeholder='Select book' name='book' required='true')
         - books.sort(function(a, b) {let textA = a.title.toUpperCase(); let textB = b.title.toUpperCase(); return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;});
         for book in books
-          option(value=book._id, selected=(selected_book==book._id.toString() ? 'selected' : false) ) #{book.title}
-
+          if bookinstance
+            option(value=book._id, selected=(selected_book==book._id.toString() ? 'selected' : false) ) #{book.title}
+          else 
+            option(value=book._id) #{book.title}
     div.form-group
       label(for='imprint') Imprint:
-      input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint' required='true' value=(undefined===bookinstance ? '' : bookinstance.imprint))
+      input#imprint.form-control(type='text' placeholder='Publisher and date information' name='imprint'  value=(undefined===bookinstance ? '' : bookinstance.imprint))
     div.form-group
       label(for='due_back') Date when book available:
-      input#due_back.form-control(type='date' name='due_back' value=(undefined===bookinstance ? '' : bookinstance.due_back))
+      - let fullYear = ""
+      - let month = ""
+      - let date = ""
+      - if (!(bookinstance == undefined || bookinstance.due_back == undefined))
+        - fullYear =  bookinstance.due_back.getFullYear()
+        - month = bookinstance.due_back.getMonth() + 1
+        - month = month < 10 ? "0" + month : month 
+        - date = bookinstance.due_back.getDate()
+        - date = date < 10 ? "0" + date : date
+      - let due_back = fullYear + "-" + month  + "-" + date;
+      input#due_back.form-control(type='date' name='due_back' value=(undefined===bookinstance ? '' : due_back))
 
     div.form-group
       label(for='status') Status:
       select#status.form-control(type='select' placeholder='Select status' name='status' required='true')
-        option(value='Maintenance') Maintenance
-        option(value='Available') Available
-        option(value='Loaned') Loaned
-        option(value='Reserved') Reserved
+        option(value='Maintenance', selected=(bookinstance===undefined ? false : bookinstance.status==='Maintenance')) Maintenance
+        option(value='Available', selected=(bookinstance===undefined ? false : bookinstance.status==='Available')) Available
+        option(value='Loaned', selected=(bookinstance===undefined ? false : bookinstance.status==='Loaned')) Loaned
+        option(value='Reserved', selected=(bookinstance===undefined ? false : bookinstance.status==='Reserved')) Reserved
 
     button.btn.btn-primary(type='submit') Submit
 
