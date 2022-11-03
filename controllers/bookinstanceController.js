@@ -71,7 +71,6 @@ exports.bookinstance_create_post = [
     });
 
     if (!errors.isEmpty()) {
-      console.log(bookinstance.due_back);
       Book.find({}, "title").exec((err, books) => {
         if (err) return next(err);
         res.render("bookinstance_form", {
